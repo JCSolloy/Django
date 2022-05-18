@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prueba comunicación Modbus</title>
+  <header>Prueba de comunicación Modbus</header>
+</head>
+<body>
+  <form action="" method = "POST">
+    {% csrf_token %}
+    
+    <label for="Cliente">Cliente</label>
+    <select name="Cliente">
+      {% for x in Dispositivos %}
+      <option value="{{x.Cliente}}">{{x.Cliente}}</option>
+      {% endfor %}
+    </select>
+
+
+      {% for x in Proyecto %}
+      <option value="{{x.Proyecto}}">{{x.Proyecto}}</option>
+      {% endfor %}
+    <button type = "submit" value = "OK">Prueba de comunicación</button>
+  </form>
+  <header>{{Registros}}</header>
+</body>
+</html>

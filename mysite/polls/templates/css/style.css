@@ -1,0 +1,10 @@
+.login,
+.image {
+  min-height: 100vh;
+}
+
+.back-image {
+  background-image: url('https://images.ctfassets.net/hbmwn5pbkdff/6wCAiaddQGDRj6npFOEAfQ/328e25042cdd298e4505835f151ca5c6/BA_Square.jpg');
+  background-size: cover;
+  background-position: center center;
+}
