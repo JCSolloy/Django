@@ -4,20 +4,7 @@ from django.template import loader
 from .models import Dispositivo
 
 def index(request):
-
-    c = ModbusClient(host="10.232.3.41",
-                 port=502,
-                 unit_id=0,
-                 debug=False,
-                 auto_open=True,
-                 auto_close=True)
-
-    regs = c.read_holding_registers(4419, 10)
-
-
-    registros = 'Registros interrogados ' + str(regs)
-
-    return HttpResponse(registros)
+    return HttpResponse('index')
 
 def home(request):
     template = loader.get_template('login.html')
@@ -28,7 +15,7 @@ def modbus(request):
     template = loader.get_template('modbus.html')
     if request.method == 'POST':
         Cliente = request.POST['Cliente']
-        Proyecto = Dispositivo.objects.filter(Cliente=Cliente).values()
+        Proyecto = Dispositivo.objects.filter(Cliente='EMPAGUA').values()
         c = ModbusClient(
                  host="10.97.0.188",
                  port=502,

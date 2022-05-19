@@ -17,9 +17,20 @@
     </select>
 
 
-      {% for x in Proyecto %}
+    <label for="Cliente">Proyecto</label>
+    <select name="Cliente">
+      {% for x in Dispositivos %}
       <option value="{{x.Proyecto}}">{{x.Proyecto}}</option>
       {% endfor %}
+    </select>
+    
+    <label for="Cliente">ID LabVIEW</label>
+    <select name="ID_Labview">
+      {% for x in Dispositivos %}
+      <option value="{{x.ID_Labview}}">{{x.ID_Labview}}</option>
+      {% endfor %}
+    </select>
+
     <button type = "submit" value = "OK">Prueba de comunicación</button>
   </form>
   <header>{{Registros}}</header>

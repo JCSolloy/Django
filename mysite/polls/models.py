@@ -14,3 +14,4 @@ class Dispositivo(models.Model):
     Marca_Sensor = models.CharField(max_length=50)
     Modelo_Sensor = models.CharField(max_length=50)
     Medición = models.CharField(max_length=50)
+    Modbus_ID = models.IntegerField(default=0)
