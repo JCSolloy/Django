@@ -9,30 +9,23 @@
   <form action="" method = "POST">
     {% csrf_token %}
     
-    <label for="Cliente">Cliente</label>
-    <select name="Cliente">
-      {% for x in Dispositivos %}
-      <option value="{{x.Cliente}}">{{x.Cliente}}</option>
-      {% endfor %}
-    </select>
+    <label for="Cliente">Dispositivo</label>
 
-
-    <label for="Cliente">Proyecto</label>
-    <select name="Cliente">
-      {% for x in Dispositivos %}
-      <option value="{{x.Proyecto}}">{{x.Proyecto}}</option>
-      {% endfor %}
-    </select>
-    
-    <label for="Cliente">ID LabVIEW</label>
-    <select name="ID_Labview">
+    <select name="Dispositivo">
       {% for x in Dispositivos %}
       <option value="{{x.ID_Labview}}">{{x.ID_Labview}}</option>
+      
       {% endfor %}
     </select>
 
     <button type = "submit" value = "OK">Prueba de comunicación</button>
   </form>
   <header>{{Registros}}</header>
+  <header>{{Cliente}}</header>
+  <header>{{Registro}}</header>
+  <header>{{Cantidad_de_Registros}}</header>
+  <header>{{IP}}</header>
+  <header>{{ID_Labview}}</header>
+  <header>{{Modbus_ID}}</header>
 </body>
 </html>
