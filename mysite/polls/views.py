@@ -2,7 +2,15 @@ from django.http import HttpResponse
 from pyModbusTCP.client import ModbusClient
 from django.template import loader
 from .models import Dispositivo
+import subprocess
+import platform
 
+def myping(host):
+    parameter = '-n' if platform.system().lower()=='windows' else '-c'
+
+    command = ['ping', parameter, '10', host]
+    response = subprocess.call(command)
+    return response
 #Funcion que realiza la conexión Modbus
 def Modbus(IP, Puerto, Registros, Cantidad_de_Registros, Modbus_ID):
      Regs = list()
@@ -15,12 +23,14 @@ def Modbus(IP, Puerto, Registros, Cantidad_de_Registros, Modbus_ID):
                           auto_close=True)
          Regs = c.read_holding_registers(Registros, Cantidad_de_Registros)
          if Regs:
+            Communication = True
             Message = 'Registros leidos correctamente'
          else:
+            Communication = False
             Message = 'Error al leer registros'
      except:
          Message = 'Error de la función'
-     return Regs, Message
+     return Regs, Message, Communication
 
 def index(request):
     return HttpResponse('index')
@@ -49,6 +59,8 @@ def modbus(request):
     Medición = '00000'
     Modbus_ID = 0
     Com = list()
+    ping = False
+    state = False
 
     if request.method == 'POST':
         idlabview = request.POST["Dispositivo"]
@@ -67,7 +79,8 @@ def modbus(request):
         Modbus_ID = int(Datos[0].get('Modbus_ID'))
         
         Com = Modbus(IP, Puerto, Registros, Cantidad_de_Registros, Modbus_ID)
-        
+        state = Com[2]
+
         context = {
             'Dispositivos' :Dispositivos,
             'Cliente' : Cliente,
@@ -83,6 +96,7 @@ def modbus(request):
             'Medición' : Medición,
             'Modbus_ID' : Modbus_ID,
             'Com' : Com,
+            'state' : state,
             }
     else:
         context = {
@@ -100,6 +114,7 @@ def modbus(request):
             'Medición' : Medición,
             'Modbus_ID' : Modbus_ID,
             'Com' : Com,
+            'state' : state,
             }
 
     template = loader.get_template('modbus.html')
