@@ -5,13 +5,6 @@ from .models import Dispositivo
 import subprocess
 import platform
 
-def myping(host):
-    parameter = '-n' if platform.system().lower()=='windows' else '-c'
-
-    command = ['ping', parameter, '10', host]
-    response = subprocess.call(command)
-    return response
-#Funcion que realiza la conexión Modbus
 def Modbus(IP, Puerto, Registros, Cantidad_de_Registros, Modbus_ID):
      Regs = list()
      try: 
@@ -31,7 +24,56 @@ def Modbus(IP, Puerto, Registros, Cantidad_de_Registros, Modbus_ID):
      except:
          Message = 'Error de la función'
      return Regs, Message, Communication
+ 
+def myping(host):
+    parameter = '-n' if platform.system().lower()=='windows' else '-c'
 
+    command = ['ping', parameter, '10', host]
+    response = subprocess.call(command)
+    return response
+
+def dispositivo(request):
+    IP = "0.0.0.0"
+    Puerto = 502
+    ID = 0
+    Registro_Inicio = 0
+    Cantidad_Registros = 0
+    Com = list()
+    
+    if request.method == 'POST':
+        IP = request.POST["IP"]
+        Puerto = int(request.POST["Puerto"])
+        ID = int(request.POST["ID"])
+        Registro_Inicio = int(request.POST["Registro_Inicio"])
+        Cantidad_Registros = int(request.POST["Cantidad_Registros"]) 
+        print(IP,Puerto,ID,Registro_Inicio,Cantidad_Registros)
+        print(type(IP))
+        print(type(Puerto))
+        print(type(ID))
+        print(type(Registro_Inicio))
+        print(type(Cantidad_Registros)) 
+        Com = Modbus(IP, Puerto, Registro_Inicio, Cantidad_Registros, ID)
+         
+        context = {
+            'IP': IP,
+            'Registro_Inicio': Registro_Inicio,
+            'Cantidad_Registros': Cantidad_Registros,
+            'Puerto': Puerto,
+            'ID': ID,
+            'Com': Com,
+            }
+    else:
+        context = {
+            'IP': IP,
+            'Registro_Inicio': Registro_Inicio,
+            'Cantidad_Registros': Cantidad_Registros,
+            'Puerto': Puerto,
+            'ID': ID,
+            'Com': Com,
+            }
+
+    template = loader.get_template('unknown.html')
+    return HttpResponse(template.render(context, request))
 def index(request):
     return HttpResponse('index')
 
@@ -119,3 +161,5 @@ def modbus(request):
 
     template = loader.get_template('modbus.html')
     return HttpResponse(template.render(context, request))
+
+

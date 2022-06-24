@@ -18,11 +18,13 @@ from django.urls import path, include
 
 from polls import views as vpolls
 from mysite import views as general
+
 urlpatterns = [
     path('polls/', vpolls.index, name = 'polls'),
     path('admin/', admin.site.urls),
     path('login/', general.homepage, name = 'homepage'),
     path('home/', vpolls.home, name = 'home'),
     path('modbus/', vpolls.modbus, name = 'modbus'),
+    path('dispositivo/', vpolls.dispositivo, name = 'dispositivo'),
     ]
 
